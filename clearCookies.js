@@ -34,6 +34,9 @@ const clearAllCookiesForSite = () => {
         // We'll set this to true if there's an error
         let error = false;
 
+        // The message we'll show to the user (we'll change this later)
+        let message = 'Unknown result';
+
         // Now get the hostname (i.e. domain) from the tab URL
         // The hostname should be the *fourth* matching group (i.e. index 3) from the regular expression
         let tabURL = tab.url;
@@ -62,7 +65,9 @@ const clearAllCookiesForSite = () => {
                 chrome.cookies.remove(cookieDetails, (result) => {
                     // If result is null, there was an error, so report this to the console for now
                     if (result === null) {
-                        console.error('There was an error removing the cookie \'' + cookieDetails.name + '\'');
+                        message = 'There was an error removing the cookie \'' + cookieDetails.name + '\'.';
+                        alert(message);
+                        console.error(message);
                         error = true;
                     }
                 });
@@ -70,7 +75,9 @@ const clearAllCookiesForSite = () => {
 
             // If error is still false, return a success message to the browser console
             if (!error) {
-                console.log(cookieList.length + ' cookie(s) successfully removed');
+                message = cookieList.length + ' cookie(s) successfully removed.';
+                alert(message);
+                console.log(message);
             }
 
         });
